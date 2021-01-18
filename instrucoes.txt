@@ -1,0 +1,11 @@
+Regras do jogo de tênis
+
+Prefixo das pontuações:
+0: "Love";
+1: "Fifteen";
+2: "Thirty";
+3: "Forty";
+
+- Se ambos estão com a mesma pontuação, o score deve ser preenchido com o prefixo da pontuação em questão seguido do sufixo "-All";
+- Se algum dos 2 tem pontuação maior ou igual a 4, significa que alguém ganhou (caso o módulo da diferença de pontuação seja >=2) ou está em vantagem em uma disputa de empate (caso o módulo da diferença de pontuação seja = 1);
+- Se não for nenhum dos casos anteriores, o score será preenchido com "{Prefixo da pontuação do player 1} - {Prefixo da pontuação do player 2}";
