@@ -21,7 +21,7 @@ public class TennisGameTest {
     }
 
     @Test
-    public void testePlayer1GanhouPonto() {
+    public void testPlayer1WonPoint() {
         tennisGame.player1.setPoints(0);
         tennisGame.player2.setPoints(0);
 
@@ -31,7 +31,7 @@ public class TennisGameTest {
     }
 
     @Test
-    public void testePlayer2GanhouPonto() {
+    public void testPlayer2WonPoint() {
         tennisGame.player1.setPoints(0);
         tennisGame.player2.setPoints(0);
 
@@ -41,7 +41,18 @@ public class TennisGameTest {
     }
 
     @Test
-    public void testeDeuce() {
+    public void testExternalPlayerWonPoint() {
+        tennisGame.player1.setPoints(0);
+        tennisGame.player2.setPoints(0);
+
+        tennisGame.wonPoint("João");
+
+        Assert.assertEquals(0, tennisGame.player1.getPoints());
+        Assert.assertEquals(0, tennisGame.player2.getPoints());
+    }
+
+    @Test
+    public void testDeuce() {
         tennisGame.player1.setPoints(4);
         tennisGame.player2.setPoints(4);
 
@@ -49,7 +60,7 @@ public class TennisGameTest {
     }
 
     @Test
-    public void testeLoveAll() {
+    public void testLoveAll() {
         tennisGame.player1.setPoints(0);
         tennisGame.player2.setPoints(0);
 
@@ -57,7 +68,7 @@ public class TennisGameTest {
     }
 
     @Test
-    public void testeFifteenAll() {
+    public void testFifteenAll() {
         tennisGame.player1.setPoints(1);
         tennisGame.player2.setPoints(1);
 
@@ -65,7 +76,7 @@ public class TennisGameTest {
     }
 
     @Test
-    public void testeThirtyAll() {
+    public void testThirtyAll() {
         tennisGame.player1.setPoints(2);
         tennisGame.player2.setPoints(2);
 

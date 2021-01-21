@@ -19,7 +19,7 @@ public class TennisGame {
     public void wonPoint(String playerName) {
         if (playerName.equals(player1.getName())) {
             player1.incrementScore();
-        } else {
+        } else if (playerName.equals(player2.getName())) {
             player2.incrementScore();
         }
     }
