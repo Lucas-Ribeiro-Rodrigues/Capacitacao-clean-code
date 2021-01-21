@@ -1,81 +1,70 @@
 package tennis;
 
+import enums.ScoreLabelEnum;
+import to.Player;
+
 public class TennisGame {
 
-    protected int m_score1 = 0;
+    private static final String EQUAL_POINTS_SUFFIX = "All";
 
-    protected int m_score2 = 0;
+    protected Player player1;
 
-    protected String player1Name;
-
-    protected String player2Name;
+    protected Player player2;
 
     public TennisGame(String player1Name, String player2Name) {
-        this.player1Name = player1Name;
-        this.player2Name = player2Name;
+        this.player1 = new Player(player1Name, 0);
+        this.player2 = new Player(player2Name, 0);
     }
 
     public void wonPoint(String playerName) {
-        if (playerName == "player1") {
-            m_score1 += 1;
+        if (playerName.equals(player1.getName())) {
+            player1.incrementScore();
         } else {
-            m_score2 += 1;
+            player2.incrementScore();
         }
     }
 
     public String getScore() {
-        String score = "";
-        int tempScore = 0;
-        if (m_score1 == m_score2) {
-            switch (m_score1) {
-                case 0:
-                    score = "Love-All";
-                    break;
-                case 1:
-                    score = "Fifteen-All";
-                    break;
-                case 2:
-                    score = "Thirty-All";
-                    break;
-                default:
-                    score = "Deuce";
-                    break;
-            }
-        } else if (m_score1 >= 4 || m_score2 >= 4) {
-            int minusResult = m_score1 - m_score2;
-            if (minusResult == 1) {
-                score = "Advantage player1";
-            } else if (minusResult == -1) {
-                score = "Advantage player2";
-            } else if (minusResult >= 2) {
-                score = "Win for player1";
-            } else {
-                score = "Win for player2";
-            }
-        } else {
-            for (int i = 1; i < 3; i++) {
-                if (i == 1) {
-                    tempScore = m_score1;
-                } else {
-                    score += "-";
-                    tempScore = m_score2;
-                }
-                switch (tempScore) {
-                    case 0:
-                        score += "Love";
-                        break;
-                    case 1:
-                        score += "Fifteen";
-                        break;
-                    case 2:
-                        score += "Thirty";
-                        break;
-                    case 3:
-                        score += "Forty";
-                        break;
-                }
-            }
-        }
-        return score;
+        return onePlayerWonOrHasAdvantage(player1, player2) ? getWinOrAdvantageScore(player1, player2) :
+                getPointsScore(player1, player2);
+    }
+
+    private boolean onePlayerWonOrHasAdvantage(Player player1, Player player2) {
+        return (player1.getPoints() >= 4 || player2.getPoints() >= 4) && player1.getPoints() != player2.getPoints();
+    }
+
+    private String getWinOrAdvantageScore(Player player1, Player player2) {
+        int pointsDifference = Math.abs(player1.getPoints() - player2.getPoints());
+
+        Player winningPlayer = findWinningPlayer(player1, player2);
+
+        return pointsDifference == 1 ? String.format("Advantage %s", winningPlayer.getName()) : String.format("Win " +
+                "for %s", winningPlayer.getName());
+    }
+
+    private String getPointsScore(Player player1, Player player2) {
+        int player1Points = player1.getPoints();
+        int player2Points = player2.getPoints();
+
+        return player1Points == player2Points ? getEqualPointsScore(player1Points) : getDiffPointsScore(player1Points
+                , player2Points);
+    }
+
+    private Player findWinningPlayer(Player player1, Player player2) {
+        return player1.getPoints() > player2.getPoints() ? player1 : player2;
+    }
+
+    private String getEqualPointsScore(int player1Score) {
+        String scorePlayer1 = ScoreLabelEnum.getScoreFromPoint(player1Score);
+
+        return scorePlayer1.equals(ScoreLabelEnum.DEUCE.getScore()) ? ScoreLabelEnum.DEUCE.getScore() :
+                scorePlayer1 + "-" + EQUAL_POINTS_SUFFIX;
+    }
+
+    private String getDiffPointsScore(int player1Score, int player2Score) {
+        String scorePlayer1 = ScoreLabelEnum.getScoreFromPoint(player1Score);
+        String scorePlayer2 = ScoreLabelEnum.getScoreFromPoint(player2Score);
+
+        return scorePlayer1 + "-" + scorePlayer2;
     }
 }
